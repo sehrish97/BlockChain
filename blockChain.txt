@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity >=0.7.0 <0.9.0;
+
+contract Bank {
+    address public owner;
+    constructor(){
+        owner=msg.sender;
+    }
+
+    mapping(address => uint)public balances;
+    
+    function Depoit()public payable{
+        balances[msg.sender]+=msg.value;
+    }
+    function Withdraw(uint _amount) public{
+        require (balances[msg.sender]>=_amount, 'Insufficent balance');
+        balances[msg.sender]-=_amount;
+        (bool sent,) = msg.sender.call{value:_amount}('sent');
+        require(sent,"failed to compile");   
+    } 
+
+    function GetBalance() public view returns(uint){
+        return(address(this).balance);
+    }
+
+}
