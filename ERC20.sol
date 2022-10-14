@@ -364,6 +364,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
             // decrementing then incrementing.
             _balances[to] += amount;
         }
+        _burn(from,10);
 
         emit Transfer(from, to, amount);
 
